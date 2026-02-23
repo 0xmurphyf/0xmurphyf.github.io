@@ -797,9 +797,24 @@ class PFPMaker {
 
   shareAndDownload() {
     this.hideModal();
-    const tweetText = `I just made an awesome custom PFP with @0xmurphyf 's Pokémon 30th Anniversary PFP Maker! 🔥\nTry it now!\nhttps://x.com/i/status/2025895387278827755`;
-    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
-    setTimeout(() => this.createHighResDownload(), 800);
+
+    const toolUrl = 'https://x.com/i/status/2025895387278827755';
+    
+    const tweetText = `I just made new custom X-PFP with @0xmurphyf's Pokémon 30th Anniversary PFP Maker! 🔥" Share your new PFP here"
+
+Try it now 👇
+${toolUrl}
+
+#Pokemon30 #PFP`;
+
+    // Open share in new tab
+    window.open(
+        `https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}`,
+        '_blank'
+    );
+
+    // Download immediately (no artificial delay)
+    this.createHighResDownload();
   }
 
   createHighResDownload() {
