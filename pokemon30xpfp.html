@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pokémon 30th Anniversary X-PFP Maker 🌟🌟</title>
+<style>
+  :root {
+    --primary-red: #E60012;
+    --primary-yellow: #FFCC00;
+    --dark-bg: #222;
+    --shadow-heavy: 0 15px 40px rgba(0,0,0,0.25);
+    --shadow-light: 0 0 30px rgba(0,0,0,0.4);
+  }
+  
+  * { box-sizing: border-box; }
+  
+  body { 
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background: linear-gradient(135deg, var(--primary-yellow), var(--primary-red)); 
+    margin: 0; 
+    padding: 20px; 
+    color: #333;
+    min-height: 100vh;
+  }
+  
+  .container { 
+    max-width: 1100px; 
+    margin: auto; 
+    background: white; 
+    border-radius: 24px; 
+    box-shadow: var(--shadow-heavy); 
+    overflow: hidden; 
+  }
+  
+  .header { 
+    background: var(--primary-red); 
+    color: white; 
+    padding: 20px; 
+    text-align: center; 
+    font-size: clamp(20px, 4vw, 28px); 
+    font-weight: bold; 
+  }
+  
+  .main { 
+    display: flex; 
+    gap: 30px; 
+    padding: 30px; 
+    flex-wrap: wrap; 
+  }
+  
+  .preview-area { 
+    flex: 1; 
+    min-width: min(420px, 100%); 
+    text-align: center; 
+  }
+  
+  .preview { 
+    border: 12px solid var(--dark-bg); 
+    border-radius: 16px; 
+    overflow: hidden; 
+    box-shadow: var(--shadow-light); 
+    width: min(420px, 100%); 
+    height: 420px; 
+    margin: auto;
+    background: #f0f0f0;
+  }
+  
+  canvas { 
+    width: 100%; 
+    height: 100%; 
+    background: #fff; 
+    cursor: crosshair;
+    display: block;
+  }
+  
+  .controls { 
+    flex: 1; 
+    min-width: min(340px, 100%); 
+  }
+  
+  .upload-box { 
+    border: 4px dashed var(--primary-red); 
+    padding: 40px 20px; 
+    text-align: center; 
+    border-radius: 16px; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    margin-bottom: 15px;
+    user-select: none;
+  }
+  
+  .upload-box:hover { 
+    background: #FFF0F0; 
+    transform: translateY(-2px);
+  }
+  
+  .upload-box.dragover {
+    background: #FFE0E0;
+    border-style: solid;
+  }
+  
+  button { 
+    background: var(--primary-red); 
+    color: white; 
+    border: none; 
+    padding: 14px 24px; 
+    margin: 8px 4px; 
+    border-radius: 10px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    font-weight: 600;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  
+  button:hover { 
+    background: #C4000F; 
+    transform: translateY(-2px);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .toggle-btn { 
+    background: #333; 
+    color: white; 
+  }
+  
+  .toggle-btn.active { 
+    background: #00C853; 
+  }
+  
+  .slider-container { 
+    margin: 20px 0; 
+  }
+  
+  .slider-container label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-weight: 600; 
+    font-size: 15px; 
+  }
+  
+  input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-red);
+    cursor: pointer;
+  }
+  
+  .custom-links {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .custom-links a {
+    display: inline-block;
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 15px;
+    margin: 5px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+  
+  .custom-links a:hover {
+    background: #FFF0F0;
+    border-color: var(--primary-red);
+    transform: translateY(-2px);
+  }
+  
+  .author-link {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #f0f0f0;
+  }
+  
+  .author-link a {
+    display: inline-flex;
+    align-items: center;
+    color: var(--primary-red);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: #FFF0F0;
+    transition: all 0.2s ease;
+  }
+  
+  .author-link a:hover {
+    background: #FFE0E0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(230, 0, 18, 0.2);
+  }
+  
+  .author-link img {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  #downloadModal { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.85); 
+    z-index: 9999; 
+    align-items: center; 
+    justify-content: center; 
+  }
+  
+  .modal-content { 
+    background: white; 
+    padding: 40px; 
+    border-radius: 20px; 
+    max-width: min(420px, 90vw); 
+    text-align: center; 
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5); 
+    margin: 20px;
+  }
+  
+  .modal-btn { 
+    width: 100%; 
+    padding: 16px; 
+    margin: 12px 0; 
+    font-size: 18px; 
+    border-radius: 12px; 
+    border: none; 
+    cursor: pointer; 
+  }
+  
+  .direct { 
+    background: var(--primary-red); 
+    color: white; 
+  }
+  
+  .tweet { 
+    background: #1DA1F2; 
+    color: white; 
+  }
+  
+  .loading {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+  }
+  
+  .loading::after {
+    content: "Processing...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    body { padding: 10px; }
+    .main { padding: 20px; gap: 20px; }
+    .preview { height: 350px; }
+    .header { padding: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">Pokémon 30th Anniversary X-PFP Maker 🌟🌟</div>
+  <div class="main">
+    <div class="preview-area">
+      <h2>👀 Live Preview</h2>
+      <div class="preview">
+        <canvas id="canvas" width="512" height="512"></canvas>
+      </div>
+      <p style="margin:15px 0 0;color:#555;">💡 Drag to move • Use sliders to resize</p>
+      <p style="margin-top:8px;color:#888;font-size:13px;">Dashed circle = final PFP area</p>
+    </div>
+
+    <div class="controls">
+      <h2>Editing Mode</h2>
+      <div style="display: flex; gap: 10px;">
+        <button id="btnPhoto" class="toggle-btn active" style="flex:1;">📸 Edit Photo</button>
+        <button id="btnLogo" class="toggle-btn" style="flex:1;">⭐ Edit Logo</button>
+      </div>
+
+      <h2>1. Upload Your Photo</h2>
+      <div id="photoDrop" class="upload-box">
+        <span id="photoDropText">Click or drag your photo here</span>
+        <br><small>Best: square portrait</small>
+      </div>
+      <input type="file" id="photoInput" accept="image/*" style="display:none;">
+
+      <h2>2. Upload Logo</h2>
+      <div id="logoDrop" class="upload-box">
+        <span id="logoDropText">Click or drag your logo here</span>
+        <br><small>Auto transparent if needed</small>
+      </div>
+      <input type="file" id="logoInput" accept="image/*" style="display:none;">
+      
+      <div class="custom-links">
+        <a href="https://x.com/0xMurphyf/status/2025825216879030537?s=20" target="_blank" style="color: #0066CC;">Catch your own one!</a>
+        Or
+        <a href="https://www.serebii.net/pokemon30/#artwork" target="_blank" style="color: #4285F4;">Pick from Serebii.net~</a>
+      </div>
+
+      <div id="photoControls" class="slider-container">
+        <label>Photo Size <span id="photoSizeVal">100</span>%</label>
+        <input type="range" id="photoSizeSlider" min="50" max="200" value="100">
+      </div>
+
+      <div id="logoControls" class="slider-container">
+        <label>Logo Size <span id="sizeVal">38</span>%</label>
+        <input type="range" id="sizeSlider" min="15" max="85" value="38">
+      </div>
+      
+      <div class="slider-container">
+        <label>Logo Opacity <span id="opacityVal">100</span>%</label>
+        <input type="range" id="opacitySlider" min="10" max="100" value="100">
+      </div>
+
+      <button id="downloadBtn" style="width:100%;padding:18px;font-size:19px;margin-top:20px;">
+        💾 Download My PFP
+      </button>
+      
+      <div class="author-link">
+        <a href="https://x.com/0xmurphyf" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" style="margin-right:8px;">
+            <path fill="#1DA1F2" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Created by @0xmurphyf
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DOWNLOAD MODAL -->
+<div id="downloadModal">
+  <div class="modal-content">
+    <h2>🎉 Download Your Pokémon 30th Anniversary X-PFP!</h2>
+    <p style="margin:20px 0 30px;color:#555;">Choose how to continue:</p>
+    <button class="modal-btn direct">Direct Download</button>
+    <button class="modal-btn tweet">Share on X first (Recommended)</button>
+    <p style="margin-top:25px;font-size:13px;color:#888;">Sharing will introduce this tool and @0xmurphyf</p>
+    <button id="cancelBtn" style="margin-top:15px;background:none;border:none;color:#888;cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<script>
+class PFPMaker {
+  constructor() {
+    this.canvas = document.getElementById('canvas');
+    this.ctx = this.canvas.getContext('2d');
+    
+    // State management
+    this.state = {
+      userPhoto: null,
+      selectedLogo: null,
+      logoImages: {},
+      currentMode: 'photo',
+      photoX: 0, photoY: 0, photoScale: 1.0,
+      logoX: 290, logoY: 290, logoScale: 0.38, logoOpacity: 1.0,
+      isDragging: false, dragOffsetX: 0, dragOffsetY: 0,
+      isProcessing: false
+    };
+    
+    this.init();
+  }
+
+  init() {
+    this.setupEventListeners();
+    this.drawPreview();
+  }
+
+  setupEventListeners() {
+    // Mode buttons
+    document.getElementById('btnPhoto').addEventListener('click', () => this.setMode('photo'));
+    document.getElementById('btnLogo').addEventListener('click', () => this.setMode('logo'));
+    
+    // File inputs
+    document.getElementById('photoInput').addEventListener('change', (e) => this.handlePhotoUpload(e));
+    document.getElementById('logoInput').addEventListener('change', (e) => this.handleLogoUpload(e));
+    
+    // Upload areas
+    document.getElementById('photoDrop').addEventListener('click', () => document.getElementById('photoInput').click());
+    document.getElementById('logoDrop').addEventListener('click', () => document.getElementById('logoInput').click());
+    
+    // Drag and drop
+    this.setupDragAndDrop('photoDrop', (file) => this.handlePhotoFile(file));
+    this.setupDragAndDrop('logoDrop', (file) => this.handleLogoFile(file));
+    
+    // Sliders
+    document.getElementById('photoSizeSlider').addEventListener('input', (e) => this.updatePhotoSize(e.target.value));
+    document.getElementById('sizeSlider').addEventListener('input', (e) => this.updateSize(e.target.value));
+    document.getElementById('opacitySlider').addEventListener('input', (e) => this.updateOpacity(e.target.value));
+    
+    // Canvas interactions
+    this.setupCanvasInteractions();
+    
+    // Download buttons
+    document.getElementById('downloadBtn').addEventListener('click', () => this.showDownloadModal());
+    document.querySelector('.modal-btn.direct').addEventListener('click', () => this.directDownload());
+    document.querySelector('.modal-btn.tweet').addEventListener('click', () => this.shareAndDownload());
+    document.getElementById('cancelBtn').addEventListener('click', () => this.hideModal());
+  }
+
+  setupDragAndDrop(elementId, fileHandler) {
+    const element = document.getElementById(elementId);
+    
+    element.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      element.classList.add('dragover');
+    });
+    
+    element.addEventListener('dragleave', () => {
+      element.classList.remove('dragover');
+    });
+    
+    element.addEventListener('drop', (e) => {
+      e.preventDefault();
+      element.classList.remove('dragover');
+      
+      if (e.dataTransfer.files.length) {
+        fileHandler(e.dataTransfer.files[0]);
+      }
+    });
+  }
+
+  setupCanvasInteractions() {
+    const handleStart = (x, y) => {
+      if (!this.state.userPhoto && this.state.currentMode === 'photo') return;
+      if (!this.state.selectedLogo && this.state.currentMode === 'logo') return;
+      
+      const rect = this.canvas.getBoundingClientRect();
+      const scaleX = this.canvas.width / rect.width;
+      const scaleY = this.canvas.height / rect.height;
+      
+      const canvasX = (x - rect.left) * scaleX;
+      const canvasY = (y - rect.top) * scaleY;
+
+      if (this.state.currentMode === 'photo') {
+        const pw = 512 * this.state.photoScale;
+        const ph = 512 * this.state.photoScale;
+        if (canvasX > this.state.photoX && canvasX < this.state.photoX + pw && 
+            canvasY > this.state.photoY && canvasY < this.state.photoY + ph) {
+          this.state.isDragging = true;
+          this.state.dragOffsetX = canvasX - this.state.photoX;
+          this.state.dragOffsetY = canvasY - this.state.photoY;
+        }
+      } else {
+        if (!this.state.selectedLogo) return;
+        const img = this.state.logoImages[this.state.selectedLogo];
+        const lw = img.width * this.state.logoScale;
+        const lh = img.height * this.state.logoScale;
+        if (canvasX > this.state.logoX && canvasX < this.state.logoX + lw && 
+            canvasY > this.state.logoY && canvasY < this.state.logoY + lh) {
+          this.state.isDragging = true;
+          this.state.dragOffsetX = canvasX - this.state.logoX;
+          this.state.dragOffsetY = canvasY - this.state.logoY;
+        }
+      }
+    };
+
+    const handleMove = (x, y) => {
+      if (!this.state.isDragging) return;
+      
+      const rect = this.canvas.getBoundingClientRect();
+      const scaleX = this.canvas.width / rect.width;
+      const scaleY = this.canvas.height / rect.height;
+      
+      const canvasX = (x - rect.left) * scaleX;
+      const canvasY = (y - rect.top) * scaleY;
+
+      if (this.state.currentMode === 'photo') {
+        this.state.photoX = canvasX - this.state.dragOffsetX;
+        this.state.photoY = canvasY - this.state.dragOffsetY;
+      } else {
+        this.state.logoX = canvasX - this.state.dragOffsetX;
+        this.state.logoY = canvasY - this.state.dragOffsetY;
+      }
+      this.drawPreview();
+    };
+
+    const handleEnd = () => {
+      this.state.isDragging = false;
+    };
+
+    // Mouse events
+    this.canvas.addEventListener('mousedown', (e) => handleStart(e.clientX, e.clientY));
+    this.canvas.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+    this.canvas.addEventListener('mouseup', handleEnd);
+    this.canvas.addEventListener('mouseleave', handleEnd);
+
+    // Touch events
+    this.canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        handleStart(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    });
+    
+    this.canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    });
+    
+    this.canvas.addEventListener('touchend', handleEnd);
+  }
+
+  async removeBackground(img) {
+    return new Promise(resolve => {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = img.width;
+      tempCanvas.height = img.height;
+      const tctx = tempCanvas.getContext('2d');
+      
+      tctx.drawImage(img, 0, 0);
+      const imageData = tctx.getImageData(0, 0, img.width, img.height);
+      const pixels = imageData.data;
+      
+      // Improved background detection with edge sampling
+      const edgeSamples = [];
+      const samplePoints = [
+        [0, 0], [img.width-1, 0], [0, img.height-1], [img.width-1, img.height-1],
+        [Math.floor(img.width/2), 0], [0, Math.floor(img.height/2)]
+      ];
+      
+      samplePoints.forEach(([x, y]) => {
+        const index = (y * img.width + x) * 4;
+        edgeSamples.push([pixels[index], pixels[index+1], pixels[index+2]]);
+      });
+      
+      // Calculate average background color
+      const bgR = edgeSamples.reduce((sum, sample) => sum + sample[0], 0) / edgeSamples.length;
+      const bgG = edgeSamples.reduce((sum, sample) => sum + sample[1], 0) / edgeSamples.length;
+      const bgB = edgeSamples.reduce((sum, sample) => sum + sample[2], 0) / edgeSamples.length;
+
+      for (let i = 0; i < pixels.length; i += 4) {
+        const dist = Math.sqrt(
+          Math.pow(pixels[i] - bgR, 2) + 
+          Math.pow(pixels[i+1] - bgG, 2) + 
+          Math.pow(pixels[i+2] - bgB, 2)
+        );
+        
+        if (dist < 35) {
+          pixels[i+3] = 0; // Fully transparent
+        } else if (dist < 65) {
+          pixels[i+3] = Math.floor(255 * (dist - 35) / 30); // Smooth transition
+        }
+        // Otherwise keep original alpha
+      }
+      
+      tctx.putImageData(imageData, 0, 0);
+      resolve(tempCanvas.toDataURL('image/png'));
+    });
+  }
+
+  async hasTransparency(img) {
+    return new Promise(resolve => {
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = img.width;
+      tempCanvas.height = img.height;
+      const tctx = tempCanvas.getContext('2d');
+      tctx.drawImage(img, 0, 0);
+      
+      const data = tctx.getImageData(0, 0, img.width, img.height).data;
+      for (let i = 3; i < data.length; i += 4) {
+        if (data[i] < 255) {
+          resolve(true);
+          return;
+        }
+      }
+      resolve(false);
+    });
+  }
+
+  drawPreview() {
+    this.ctx.clearRect(0, 0, 512, 512);
+    
+    // Draw photo
+    if (this.state.userPhoto) {
+      const w = 512 * this.state.photoScale;
+      const h = 512 * this.state.photoScale;
+      this.ctx.drawImage(this.state.userPhoto, this.state.photoX, this.state.photoY, w, h);
+    } else {
+      this.ctx.fillStyle = '#f0f0f0';
+      this.ctx.fillRect(0, 0, 512, 512);
+      this.ctx.fillStyle = '#888';
+      this.ctx.font = 'bold 24px Arial';
+      this.ctx.textAlign = 'center';
+      this.ctx.fillText('Please upload your photo first', 256, 256);
+      this.ctx.textAlign = 'left';
+    }
+
+    // Draw logo
+    if (this.state.selectedLogo && this.state.logoImages[this.state.selectedLogo]) {
+      const img = this.state.logoImages[this.state.selectedLogo];
+      const w = img.width * this.state.logoScale;
+      const h = img.height * this.state.logoScale;
+      this.ctx.globalAlpha = this.state.logoOpacity;
+      this.ctx.drawImage(img, this.state.logoX, this.state.logoY, w, h);
+      this.ctx.globalAlpha = 1.0;
+    }
+
+    // Draw dashed circle guideline
+    this.ctx.save();
+    this.ctx.strokeStyle = 'rgba(255,255,255,0.75)';
+    this.ctx.lineWidth = 8;
+    this.ctx.setLineDash([18, 12]);
+    this.ctx.beginPath();
+    this.ctx.arc(256, 256, 256, 0, Math.PI * 2);
+    this.ctx.stroke();
+    this.ctx.restore();
+  }
+
+  setMode(mode) {
+    this.state.currentMode = mode;
+    document.getElementById('btnPhoto').classList.toggle('active', mode === 'photo');
+    document.getElementById('btnLogo').classList.toggle('active', mode === 'logo');
+  }
+
+  updatePhotoSize(val) {
+    this.state.photoScale = parseFloat(val) / 100;
+    document.getElementById('photoSizeVal').textContent = val;
+    this.drawPreview();
+  }
+
+  updateSize(val) {
+    this.state.logoScale = parseFloat(val) / 100;
+    document.getElementById('sizeVal').textContent = val;
+    this.drawPreview();
+  }
+
+  updateOpacity(val) {
+    this.state.logoOpacity = parseFloat(val) / 100;
+    document.getElementById('opacityVal').textContent = val;
+    this.drawPreview();
+  }
+
+  async handlePhotoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    await this.handlePhotoFile(file);
+  }
+
+  async handlePhotoFile(file) {
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file');
+      return;
+    }
+
+    this.setProcessingState(true, 'photoDrop');
+    
+    try {
+      const img = await this.loadImage(file);
+      this.state.userPhoto = img;
+      this.state.photoX = 0;
+      this.state.photoY = 0;
+      this.state.photoScale = 1.0;
+      this.drawPreview();
+      
+      document.getElementById('photoDropText').textContent = 'Photo uploaded ✓';
+    } catch (error) {
+      console.error('Error loading photo:', error);
+      alert('Error loading image. Please try another file.');
+    } finally {
+      this.setProcessingState(false, 'photoDrop');
+    }
+  }
+
+  async handleLogoUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    
+    await this.handleLogoFile(file);
+  }
+
+  async handleLogoFile(file) {
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file');
+      return;
+    }
+
+    this.setProcessingState(true, 'logoDrop');
+    
+    try {
+      const img = await this.loadImage(file);
+      const isTransparent = await this.hasTransparency(img);
+      let logoUrl;
+
+      if (!isTransparent) {
+        logoUrl = await this.removeBackground(img);
+      } else {
+        logoUrl = URL.createObjectURL(file);
+      }
+
+      const logoImg = await this.loadImage(logoUrl);
+      this.state.logoImages[logoUrl] = logoImg;
+      this.state.selectedLogo = logoUrl;
+      this.drawPreview();
+      
+      document.getElementById('logoDropText').textContent = 'Logo uploaded ✓';
+    } catch (error) {
+      console.error('Error processing logo:', error);
+      alert('Error processing logo. Please try another file.');
+    } finally {
+      this.setProcessingState(false, 'logoDrop');
+    }
+  }
+
+  loadImage(fileOrUrl) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      
+      if (typeof fileOrUrl === 'string') {
+        img.src = fileOrUrl;
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e) => img.src = e.target.result;
+        reader.onerror = reject;
+        reader.readAsDataURL(fileOrUrl);
+      }
+    });
+  }
+
+  setProcessingState(processing, elementId = null) {
+    this.state.isProcessing = processing;
+    
+    if (elementId) {
+      const element = document.getElementById(elementId);
+      if (processing) {
+        element.classList.add('loading');
+      } else {
+        element.classList.remove('loading');
+      }
+    }
+    
+    // Disable/enable interactive elements
+    const interactiveElements = document.querySelectorAll('button, input, .upload-box');
+    interactiveElements.forEach(el => {
+      if (processing) {
+        el.setAttribute('disabled', 'true');
+      } else {
+        el.removeAttribute('disabled');
+      }
+    });
+  }
+
+  showDownloadModal() {
+    if (!this.state.userPhoto) {
+      alert('Please upload your photo first!');
+      return;
+    }
+    document.getElementById('downloadModal').style.display = 'flex';
+  }
+
+  hideModal() {
+    document.getElementById('downloadModal').style.display = 'none';
+  }
+
+  directDownload() {
+    this.hideModal();
+    this.createHighResDownload();
+  }
+
+  shareAndDownload() {
+    this.hideModal();
+    const tweetText = `I just made an awesome custom PFP with @0xmurphyf's Pokémon 30th Anniversary PFP Maker! 🔥\n\nFull control • Right-bottom logo default • 1024x1024\nTry it now!\nhttps://x.com/0xmurphyf`;
+    window.open(`https://x.com/intent/tweet?text=${encodeURIComponent(tweetText)}`, '_blank');
+    setTimeout(() => this.createHighResDownload(), 800);
+  }
+
+  createHighResDownload() {
+    const highRes = document.createElement('canvas');
+    highRes.width = 1024;
+    highRes.height = 1024;
+    const hctx = highRes.getContext('2d');
+    
+    // Draw photo
+    if (this.state.userPhoto) {
+      hctx.drawImage(
+        this.state.userPhoto, 
+        this.state.photoX * 2, 
+        this.state.photoY * 2, 
+        1024 * this.state.photoScale, 
+        1024 * this.state.photoScale
+      );
+    }
+    
+    // Draw logo
+    if (this.state.selectedLogo && this.state.logoImages[this.state.selectedLogo]) {
+      const img = this.state.logoImages[this.state.selectedLogo];
+      const w = img.width * this.state.logoScale * 2;
+      const h = img.height * this.state.logoScale * 2;
+      hctx.globalAlpha = this.state.logoOpacity;
+      hctx.drawImage(img, this.state.logoX * 2, this.state.logoY * 2, w, h);
+      hctx.globalAlpha = 1.0;
+    }
+    
+    const link = document.createElement('a');
+    link.download = 'pokemon-30th-anniversary-pfp.png';
+    link.href = highRes.toDataURL('image/png', 1.0);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+}
+
+// Initialize the application when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  new PFPMaker();
+});
+</script>
+</body>
+</html>
